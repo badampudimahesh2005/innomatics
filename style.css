@@ -1,0 +1,93 @@
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+header {
+  background-color:rgb(23, 143, 235);
+  color: white;
+  padding: 5px 20px;
+  text-align: center;
+}
+header a{
+    color: rgb(16, 16, 139);
+   
+    text-decoration: none;
+    font-size: 20px;
+    margin-right: 20px;
+    
+}
+header a:hover{
+    color: white;
+}
+.header {
+    /* color: rgb(16, 16, 139); */
+    text-align: center;
+
+}
+section {
+  margin: 20px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 60%;
+}
+.all-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.table-responsive {
+overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+table, th, td {
+  border: 1px solid #ddd;
+}
+th, td {
+  padding: 10px;
+  text-align: center;
+}
+th {
+  background-color: #f2f2f2;
+}
+form {
+  display: flex;
+  flex-direction: column;
+    gap: 10px;
+    
+  
+}
+.form-title{
+    text-align: center;
+}
+input, select, button, textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+button {
+    background-color:rgb(9, 132, 226);
+
+  color: white;
+  cursor: pointer;
+  
+margin: 0 auto;
+}
+button:hover {
+  transform: scale(1.1);
+  font-size: 15px;
+}
+.type-container {
+  display: flex;
+  gap: 10px;
+}
