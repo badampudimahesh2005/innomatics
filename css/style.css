@@ -270,6 +270,11 @@ a{
   opacity: 0;
   transform: translateY(50px);
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+ 
+}
+.contact-section h2 {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .contact-section.visible {
