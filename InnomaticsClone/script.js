@@ -3,15 +3,8 @@
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    const menuBtn = document.querySelector(".menu-btn");
-    const navLinks = document.querySelector(".nav-links");
 
-    menuBtn.addEventListener("click", function () {
-        navLinks.classList.toggle("show");
-    });
-});
-
+  
 
 // Image Slider
 let currentIndex = 0;
@@ -53,3 +46,11 @@ function showContent(tabId) {
     document.getElementById(tabId).style.display = 'flex';
     event.currentTarget.classList.add('active');
 }
+
+const menuBtn = document.querySelector(".menu-btn");
+const navLinks = document.querySelector(".nav-links");
+
+menuBtn.addEventListener("click", function () {
+    navLinks.classList.toggle("show");
+});
+

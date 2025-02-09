@@ -157,11 +157,12 @@ header{
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 24%;
-        left: 50%;
-        width: 40%;
+        top: 90%;
+        left: 55%;
+        width: 30%;
         background: white;
         padding: 10px;
+        text-align: center;
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         z-index: 100;
     }
@@ -892,16 +893,13 @@ footer p i{
         padding: 20px;
     }
 
-    .footer-section {
-        width: 100%;
-        text-align: start;
-    }
+   
 
     .social-icons {
         justify-content: center;
     }
     .footer-logo {
-        width: 380px;
+        width: 350px;
     }
 }
 
