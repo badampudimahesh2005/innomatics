@@ -62,13 +62,10 @@ header{
 }
 
 /* Logo */
-.logo {
-    display: flex;
-    align-items: center;
-}
 
-.logo img {
-    width: 330px;
+
+.main-logo img {
+    width: 300px;
 }
 
 
@@ -114,15 +111,47 @@ header{
 /* Hamburger Menu (Hidden by Default) */
 .menu-btn {
     display: none;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
+    padding: 9px 15px;
     background-color: black;
     color: white;
     border-radius: 10px;
-    align-self: self-start;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 /* Responsive Design */
+@media only screen and (max-width: 768px) {
+    .top-bar {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 5px 10px;
+    }
+
+    .top-bar span {
+        margin-left: 0;
+    }
+
+    .contact-btn {
+        margin: 5px;
+        font-size: 14px;
+    }
+    .navbar{
+        padding: 10px;
+        flex-direction: column;
+        align-items: center;
+    }
+    .main-logo img{
+        align-self: center;
+        width: 344px;
+    }
+    .menu-btn{
+        font-size: 14px;
+        padding: 4px 8px;
+
+    }
+   
+
+}
 @media (max-width: 980px) {
     .nav-links {
         display: none;
@@ -147,11 +176,15 @@ header{
         display: block;
         margin-right: 10px;
     }
+    .nav-btns{
+        display: flex;
+        gap: 30px;
+    }
 }
 
 
 
-/* Slider Container */
+/* --------------------------------Slider Container ------------------------------*/
 .slider-container {
     position: relative;
     width: 100%;
@@ -220,7 +253,8 @@ header{
 
 
 
-/* Training section */
+
+/* =----------------------------------------Training section-------------------- */
 
 
 .training-section {
@@ -319,20 +353,25 @@ h1 {
         flex-direction: column;
         align-items: center;
         text-align: center;
-       
+        padding: 10px;
     }
 
-    .what-we-are {
-        max-width: 90vw;
+    .content,.what-we-are{
+        max-width: 100%;
     }
-    .content{
-        max-width: 90vw;
+    .grid-container {
+        grid-template-columns: repeat(1, 1fr); 
+        gap: 20px;
+    }
+
+    .grid-item {
+        padding: 20px; 
     }
 }
 
 
 
-/* course section */
+/* -------------------------course section---------------------------------- */
 
 
 .courses-section {
@@ -417,15 +456,19 @@ h1 {
     .courses-container {
         flex-direction: column;
         align-items: center;
+        gap: 20px;
     }
 
     .course-card {
-        width: 70%;
+        width: 90%;
+    }
+    .courses-section {
+        padding: 20px;
     }
 }
 
 
-/* ................................training..................................... */
+/* ................................training section1..................................... */
 
 
 /* Section Styling */
@@ -523,17 +566,23 @@ background-color: #ededed;
         flex-direction: column;
         align-items: center;
     }
+    .training-section1 {
+        padding: 20px;
+    }
+
 
     .advantages, .video-section {
-        max-width: 90%;
+        max-width: 100%;
+    }
+    .video-box iframe {
+        width: 100%; 
+        height: auto; 
     }
 }
 
 
 
-/* .................................................................................... */
-
-/* training section2 */
+/* ..........................................training section2.......................................... */
 /* Section Styling */
 .training-section2 {
     display: flex;
@@ -608,6 +657,7 @@ background-color: #ededed;
     display: none;
    }
 }
+
 /* ------------------------------success stories--------------------- */
 .success-stories {
     display: flex;
@@ -665,6 +715,26 @@ background-color: #ededed;
     font-weight: bold;
 }
 
+@media (max-width: 768px) {
+    .story-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .story-card {
+        width: 90%;
+    }
+    .success-stories {
+        padding: 20px;
+    }
+    .pagination{
+        align-self: center;
+        margin-right: 0px;
+    }
+    
+}
+
 /* ------------------------------------blogs----------------------------- */
 .blogs{
     display: flex;
@@ -704,12 +774,29 @@ background-color: #ededed;
 }
 
 
+@media (max-width: 768px) {
+    .blog-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .blog-card {
+        width: 90%;
+    }
+    .blogs {
+        padding: 20px;
+    }
+    
+}
 /* --------------------------Footer-------------------------------------- */
 
 /* Footer Styling */
 .footer {
     background-color: black;
     color: #c2c2c2;
+    line-height: 2;
+
 
 }
 
@@ -728,7 +815,7 @@ background-color: #ededed;
 
 
 /* Logo */
-.logo {
+.footer-logo {
     width: 400px;
     margin-bottom: 15px;
 }
@@ -750,7 +837,6 @@ background-color: #ededed;
 .footer-section ul li {
     margin-bottom: 5px;
     color: #c2c2c2;
-    line-height: 2;
 }
 
 /* Contact */
@@ -758,7 +844,7 @@ background-color: #ededed;
 color: white;
     font-weight: bold;
 }
-p i{
+footer p i{
     color:#e63132;
     margin-left: -30px;
     margin-right: 10px;
@@ -799,17 +885,23 @@ p i{
     .container {
         flex-direction: column;
         align-items: start;
+        gap: 20px;
         
+    }
+    .footer {
+        padding: 20px;
     }
 
     .footer-section {
         width: 100%;
         text-align: start;
-        margin-left: 20px;
     }
 
     .social-icons {
         justify-content: center;
+    }
+    .footer-logo {
+        width: 380px;
     }
 }
 
@@ -819,4 +911,6 @@ p i{
     text-align: center;
     padding: 15px;
     font-size: 16px;
+    margin: 0px;
 }
+
