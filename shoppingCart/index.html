@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: #333;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .cart-icon {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .product-card button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+            padding: 1rem;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .cart-panel.active {
+            right: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item-controls button {
+            padding: 0.3rem 0.6rem;
+            margin: 0 0.3rem;
+            cursor: pointer;
+        }
+
+        .total-price {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .cart-panel {
+                width: 100%;
+                right: 0;
+                bottom: -100%;
+                top: unset;
+                height: 70vh;
+                transition: bottom 0.3s ease;
+            }
+
+            .cart-panel.active {
+                bottom: 0;
+            }
+        }
+
+       
+        /* Previous CSS remains the same */
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+
+            z-index: 999;
+        }
+
+        .cart-panel.active + .cart-overlay {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .cart-overlay {
+                background-color: transparent;
+            }
+        }
+    
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="#">Mobiles</a>
+            <a href="#">Laptops</a>
+            <a href="#">Tablets</a>
+        </div>
+        <div class="cart-icon" onclick="toggleCart()">
+            🛒 <span class="cart-count">0</span>
+        </div>
+    </nav>
+
+    <main>
+        <div class="products" id="products"></div>
+    </main>
+
+    <div class="cart-panel" id="cartPanel">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-btn" onclick="closeCart()">×</button>
+        </div>
+        <div id="cartItems"></div>
+        <div class="total-price">Total: $<span id="totalPrice">0</span></div>
+    </div>
+    <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const products = [
+            { id: 1, name: "iPhone 15", price: 999 },
+            { id: 2, name: "Samsung Galaxy S23", price: 799 },
+            { id: 3, name: "Google Pixel 8", price: 699 },
+            { id: 4, name: "MacBook Pro", price: 1999 },
+            { id: 5, name: "Dell XPS 15", price: 1499 },
+            { id: 6, name: "iPad Pro", price: 1099 }
+        ];
+
+        function renderProducts() {
+            const productsContainer = document.getElementById('products');
+            productsContainer.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <h3>${product.name}</h3>
+                    <p>$${product.price}</p>
+                    <button onclick="addToCart(${product.id})">Add to Cart</button>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCart();
+        }
+
+        function updateCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+            updateCartCount();
+        }
+
+        function renderCart() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const totalPriceElement = document.getElementById('totalPrice');
+            
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div>
+                        <h4>${item.name}</h4>
+                        <p>$${item.price} x ${item.quantity}</p>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button onclick="updateQuantity(${item.id}, -1)">-</button>
+                        <button onclick="updateQuantity(${item.id}, 1)">+</button>
+                        <button onclick="removeItem(${item.id})">×</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            totalPriceElement.textContent = total;
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== productId);
+                }
+                updateCart();
+            }
+        }
+
+        function removeItem(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = count;
+        }
+
+        function toggleCart() {
+            document.getElementById('cartPanel').classList.toggle('active');
+        }
+
+        function toggleCart() {
+            const cartPanel = document.getElementById('cartPanel');
+            cartPanel.classList.toggle('active');
+            document.getElementById('cartOverlay').style.display = 
+                cartPanel.classList.contains('active') ? 'block' : 'none';
+        }
+
+        function closeCart() {
+            document.getElementById('cartPanel').classList.remove('active');
+            document.getElementById('cartOverlay').style.display = 'none';
+        }
+
+        // Add click outside functionality
+        document.addEventListener('click', (event) => {
+            const cartPanel = document.getElementById('cartPanel');
+            const cartIcon = document.querySelector('.cart-icon');
+            const cartOverlay = document.getElementById('cartOverlay');
+            
+            if (cartPanel.classList.contains('active') &&
+                !cartPanel.contains(event.target) &&
+                !cartIcon.contains(event.target)) {
+                closeCart();
+            }
+        });
+
+        // Initialize
+        renderProducts();
+        renderCart();
+        updateCartCount();
+    </script>
+</body>
+</html>
+
