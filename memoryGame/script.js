@@ -6,11 +6,22 @@ const movesDisplay = document.getElementById('moves');
 const restartButton = document.getElementById('restart');
 const backButton = document.getElementById('back');
 
+
+
+const overlay = document.getElementById('overlay');
+const finalTime = document.getElementById('finalTime');
+const finalMoves = document.getElementById('finalMoves');
+const playAgainButton = document.getElementById('playAgain');
+
+let flipSound = new Audio('sounds/card-flip.mp3');
+let matchSound = new Audio('sounds/correctSound.mp3');
+let gameOverSound = new Audio('sounds/winSound.wav');
+
 let categories = {
-    fruits: ['🍎', '🍊', '🍋', '🍉', '🍇', '🍓', '🍒', '🥝'],
-    vegetables: ['🥕', '🍆', '🌽', '🥦', '🧅', '🥔', '🍅', '🥒'],
-    animals: ['🐶', '🐱', '🐭', '🐰', '🦁', '🐯', '🐸', '🐵'],
-    emojis: ['😀', '😂', '😎', '😍', '🤩', '😡', '😭', '😱']
+    fruits: ['🍎', '🍊', '🍋', '🍉', '🍇', '🍓', '🍒', '🥝',],
+    vegetables: ['🥕', '🍆', '🌽', '🥦', '🧅', '🍅', '🥒','🫑'],
+    animals: ['🐶', '🐱', '🐭', '🐰', '🦁', '🐯', '🐸', '🐵',],
+    emojis: ['😀', '😂', '😎', '😍', '🤩', '😡', '😱','🤡']
 };
 
 let selectedCategory = [];
@@ -20,6 +31,12 @@ let matchedCards = [];
 let moves = 0;
 let time = 0;
 let timer;
+
+function showOverlay() {
+    finalTime.textContent = time;
+    finalMoves.textContent = moves;
+    overlay.style.display = 'flex';
+}
 
 document.querySelectorAll('.category').forEach(button => {
     button.addEventListener('click', () => {
@@ -37,6 +54,7 @@ function shuffle(array) {
 
 function startGame() {
     menu.classList.add('hidden');
+    overlay.style.display = 'none';
     gameContainer.classList.remove('hidden');
 
     gameBoard.innerHTML = '';
@@ -78,13 +96,13 @@ function createCard(image) {
     card.appendChild(cardInner);
 
     card.addEventListener('click', () => onCardClick(card));
-
     return card;
 }
 
 function onCardClick(card) {
     if (flippedCards.length < 2 && !card.classList.contains('flipped')) {
         card.classList.add('flipped');
+        flipSound.play();
         flippedCards.push(card);
 
         if (flippedCards.length === 2) {
@@ -101,16 +119,17 @@ function checkForMatch() {
     const image2 = card2.querySelector('.card-back').textContent;
 
     if (image1 === image2) {
-        
         card1.classList.add('matched');
         card2.classList.add('matched');
+        matchSound.play();
 
         matchedCards.push(card1, card2);
         flippedCards = [];
 
         if (matchedCards.length === cards.length) {
             clearInterval(timer);
-            setTimeout(() => alert(`You won! Time: ${time} seconds, Moves: ${moves}`), 300);
+            gameOverSound.play();
+            setTimeout(showOverlay, 300);
         }
     } else {
         setTimeout(() => {
@@ -122,8 +141,14 @@ function checkForMatch() {
 }
 
 restartButton.addEventListener('click', startGame);
+
+playAgainButton.addEventListener('click', () => {
+    overlay.style.display = 'none';
+    gameContainer.classList.add('hidden');
+    menu.classList.remove('hidden');
+}
+);
 backButton.addEventListener('click', () => {
     menu.classList.remove('hidden');
     gameContainer.classList.add('hidden');
-}
-);
+});

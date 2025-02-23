@@ -8,7 +8,7 @@
 </head>
 <body>
     <div id="menu">
-        <h2>Select a Memory Game</h2>
+        <h2>Select a Memory Game to play</h2>
         <button class="category" data-category="fruits">Fruits</button>
         <button class="category" data-category="vegetables">Vegetables</button>
         <button class="category" data-category="animals">Animals</button>
@@ -24,6 +24,14 @@
         <!-- cards will be generated here -->
         <button id="restart">Restart Game</button>
         <button id="back">Back</button>
+    </div>
+    
+    <div class=" overlay" id="overlay">
+        <div class="overlay-content">
+            <h2>Congratulations!</h2>
+            <p>You have completed the game <br><span id="finalTime">0</span> seconds and <span id="finalMoves">0</span> moves.</p>
+            <button id="playAgain">Play Again</button>
+      </div>
     </div>
 
     <script src="script.js"></script>
