@@ -123,9 +123,9 @@ button:hover {
 }
 
 .overlay-content {
-    background: white;
-    color: black;
-    padding: 10px;
+    background: #852969;
+    color: whitesmoke;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -144,6 +144,11 @@ button:hover {
 
 .overlay button:hover {
     background-color: #0056b3;
+}
+
+.overlay span{
+    font-size: 1.5rem;
+    color: greenyellow;
 }
 
 
