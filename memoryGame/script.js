@@ -8,14 +8,17 @@ const backButton = document.getElementById('back');
 
 
 
+
 const overlay = document.getElementById('overlay');
 const finalTime = document.getElementById('finalTime');
 const finalMoves = document.getElementById('finalMoves');
 const playAgainButton = document.getElementById('playAgain');
+const result = document.getElementById('result');
 
 let flipSound = new Audio('sounds/card-flip.mp3');
 let matchSound = new Audio('sounds/correctSound.mp3');
 let gameOverSound = new Audio('sounds/winSound.wav');
+let gameOverSound2 = new Audio('sounds/gameOver.mp3');
 
 let categories = {
     fruits: ['🍎', '🍊', '🍋', '🍉', '🍇', '🍓', '🍒', '🥝',],
@@ -31,8 +34,16 @@ let matchedCards = [];
 let moves = 0;
 let time = 0;
 let timer;
+const timeLimit = 60;
 
-function showOverlay() {
+function showOverlay(res) {
+    if(res === 'win'){
+        result.textContent = 'You Won!';
+
+    }else{
+        result.textContent = 'You Lost!';
+
+    }
     finalTime.textContent = time;
     finalMoves.textContent = moves;
     overlay.style.display = 'flex';
@@ -73,6 +84,11 @@ function startGame() {
     timer = setInterval(() => {
         time++;
         timeDisplay.textContent = time;
+        if(time >timeLimit){
+            clearInterval(timer);
+            gameOverSound2.play();
+            showOverlay('loss');
+        }
     }, 1000);
 }
 
@@ -129,7 +145,7 @@ function checkForMatch() {
         if (matchedCards.length === cards.length) {
             clearInterval(timer);
             gameOverSound.play();
-            setTimeout(showOverlay, 300);
+           showOverlay('win');
         }
     } else {
         setTimeout(() => {
